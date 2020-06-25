@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="chatbot-style.css">
+  <title>Chat Smaple</title>
+  <script>
+    var chatbotConfig = {
+      chatbotAssetsPath: "./",
+      gatewayEndpoint: "https://chatbot-gateway-demo.herokuapp.com/chatbot/"
+    }
+  </script>
+  
+  <style>
+    body {
+      background-image: url('ACE-home.png');
+    }
+  </style>
+</head>
+
+<body>
+  <div id="body">
+
+    <div id="chat-circle" class="btn btn-raised">
+      <div id="chat-overlay"></div>
+      <i class="material-icons">chat</i>
+    </div>
+
+    <div class="chat-box">
+      <div class="chat-box-header">
+        ACE Chatbot
+        <span class="chat-box-toggle"><i class="material-icons">close</i></span>
+      </div>
+      <div class="chat-box-body">
+        <div class="chat-box-overlay">
+        </div>
+        <div class="chat-logs">
+
+        </div>
+        <!--chat-log -->
+      </div>
+      <div class="chat-input">
+        <form>
+          <input type="text" id="chat-input" placeholder="Send a message..." />
+          <button type="submit" class="chat-submit" id="chat-submit"><i class="material-icons">send</i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+  <!--<script src="app.js"></script>  -->
+  <!--script src="chatbot-config.js"></script-->
+  <script src="chatbot-custom.js"></script>
+  <script src="chatbot-gateway.js"></script>
+ </body>
+
+</html>
