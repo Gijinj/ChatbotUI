@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello World</title>
+  <script>
+    var chatbotConfig = {
+      chatbotAssetsPath: "./",
+      knowledgebaseEndpoint: "https://chatbot-gateway-demo.herokuapp.com/knowledgebase/"
+      /*knowledgebaseEndpoint: "http://localhost:5000/knowledgebase/"*/
+    }
+  </script>
+
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+  <!-- Don't use this in production: -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="chatbot-knowledgeBase.js"></script>
+
+  <style>
+    body {
+      font-family: arial, sans-serif;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    .EditBox {
+      text-align: left;
+      width: 70%;
+      padding: 20px;
+      ;
+    }
+  </style>
+
+  <script type="text/babel">
+
+    class KB extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = { knowledgeBase: new Array() };
+        knowledgeBase.getAll()
+          .then((kb) => {
+            this.setState({
+              knowledgeBase: kb
+            })
+          });
+      }
+
+
+
+      render() {
+
+        return (
+          <div className="EditBox">
+            <h3>Manage knowledgebase</h3>
+            <p>Configure chatbot Q/A which are not specified in FAQ page</p>
+            <table className="table table-striped" border="1">
+              <thead>
+                <tr>
+                  <td>Question
+              </td>
+                  <td>Answer
+              </td>
+                  <td></td>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  this.state.knowledgeBase.map((item, index) => { 
+                    return <KItem key={index} item={item} onDelete={this.delete} /> }
+                  )
+                }
+              </tbody>
+            </table>
+            <div>
+              <button className="btn btn-primary" style={{ float: 'right' }} onClick={this.add}>Add</button>
+            </div>
+            <br />
+            <br />
+            <div>
+              <button className="btn btn-primary" style={{ float: 'right' }} onClick={this.save}>Save</button>
+            </div>
+          </div>
+
+        );
+      };
+
+      save() {
+        console.log('saving');
+        knowledgeBase.save().then(alert('Knowledgebase saved'));
+      }
+
+      add = () => {
+        console.log('saving');
+        var data = knowledgeBase.add('', '');
+        this.setState({
+          knowledgeBase: knowledgeBase.getAll()
+        })
+
+      }
+
+      delete = (item) => {
+        knowledgeBase.delete(item);
+        this.setState({
+          knowledgeBase: knowledgeBase.getAll()
+        })
+      }
+    }
+
+
+    class KItem extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          question: this.props.item.question,
+          answer: this.props.item.answer
+        };
+
+        this.onQuestionChange = this.onQuestionChange.bind(this);
+        this.onAnswerChange = this.onAnswerChange.bind(this);
+      }
+
+      onQuestionChange(event) {
+        this.setState({ question: event.target.value });
+        this.props.item.question = event.target.value;
+      }
+
+      onAnswerChange(event) {
+        this.setState({ answer: event.target.value });
+        this.props.item.answer = event.target.value;
+      }
+
+      onDelete = (event) => {
+        this.props.onDelete(this.props.item);
+      }
+
+      render() {
+        return (
+          <tr><td><input type='text' value={this.state.question} onChange={this.onQuestionChange} /></td>
+            <td><input type='text' value={this.state.answer} onChange={this.onAnswerChange} /></td>
+            <td><button onClick={this.onDelete}>Delete</button></td>
+          </tr>
+        );
+      }
+    }
+
+    ReactDOM.render(
+      <KB></KB>,
+      document.getElementById('root')
+    );
+
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+
+</html>
