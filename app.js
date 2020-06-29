@@ -1,35 +1,37 @@
-$(document).ready(function(){
+var fs = require('fs')
+const express = require("express")
 
-var body=$("#chat-body").html(
-//document.write(
-    '<div>'+
-    '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">'+
-    '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.css">'+
-    '<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">'+
-    '<link rel="stylesheet" href="chatbot-style.css">'+ '</div>' +
+const app = express()
+const PORT = process.env.PORT || 8080
 
- 
-    '<div id="chat-circle" class="btn btn-raised">'+ '\n'+
-            '<div id="chat-overlay"></div>'+ '\n'+
-                '<i class="material-icons">chat</i>'+ '\n'+
-        '</div>'+ '\n'+      
-      '<div class="chat-box">'+ '\n'+
-        '<div class="chat-box-header">'+ '\n'+
-          'ACE Chatbot'+ '\n'+
-          '<span class="chat-box-toggle"><i class="material-icons">close</i></span>'+ '\n'+
-        '</div>'+ '\n'+
-        '<div class="chat-box-body">'+ '\n'+
-          '<div class="chat-box-overlay"> '+ '\n'+
-          '</div>'+ '\n'+
-          '<div class="chat-logs">'+ '\n'+           
-          '</div>'+ '\n'+
-        '</div>'+ '\n'+
-        '<div class="chat-input">  '+ '\n'+    
-          '<form>'+ '\n'+
-            '<input type="text" id="chat-input" placeholder="Send a message..."/>'+ '\n'+
-          '<button type="submit" class="chat-submit" id="chat-submit"><i class="material-icons">send</i></button>'+ '\n'+
-          '</form>'+ '\n'+      
-        '</div>'+ '\n'+
-      '</div>'
-);
+// Serve static files
+app.use(express.static('.'));
+
+app.get("/", (req, res) => {
+    res.send("Server is up!!")
+})
+
+app.get("/demo", (req, res) => {
+    readPage('./index.html', res);
 });
+
+app.get("/admin", (req, res) => {
+    readPage('./admin.html', res)
+})
+
+function readPage(page, response) {
+    fs.readFile(page, null,
+        function (error, data) {
+            if (error) {
+                response.writeHead(404);
+                respone.write('Whoops! File not found!');
+            } else {
+                response.write(data);
+            }
+            response.end();
+        });
+}
+
+
+
+app.listen(PORT, "0.0.0.0", () => console.log("Chatbot demo app is running on port: ", PORT))

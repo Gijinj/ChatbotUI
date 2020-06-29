@@ -1,0 +1,25 @@
+{
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "name": "chatbot-ui",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gijinj/ChatbotUI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gijinj/ChatbotUI/issues"
+  },
+  "homepage": "https://github.com/Gijinj/ChatbotUI#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "nodemon": "^1.19.4"
+  }
+}
